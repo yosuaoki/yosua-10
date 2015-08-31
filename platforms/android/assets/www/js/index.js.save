@@ -1,0 +1,175 @@
+var express             = require('express');
+var Router              = express.Router();
+
+var CustomerController  = require('../controllers/CustomerController');
+var Customer            = new CustomerController();
+var CustomerCompanyController = require('../controllers/CustomerCompanyController');
+var CustomerCompany = new CustomerCompanyController;
+var EmployeeController  = require('../controllers/EmployeeController');
+var Employee            = new EmployeeController();
+var AreaController      = require('../controllers/AreaController');
+var Area                = new AreaController();
+var OperatorController  = require('../controllers/OperatorController');
+var Operator            = new OperatorController();
+var TrainingController = require('../controllers/TrainingController');
+var Training            = new TrainingController();
+var HolidayController   = require('../controllers/HolidayController');
+var Holiday             = new HolidayController();
+var PositionController  = require('../controllers/PositionController');
+var Position            = new PositionController();
+
+var GmpmActivityController  = require('../controllers/GmpmActivityController');
+var GmpmActivity        = new GmpmActivityController();
+var GmpmSuperiorController  = require('../controllers/GmpmSuperiorController');
+var GmpmSuperior        = new GmpmSuperiorController();
+var GpsDeviceController = require('../controllers/GpsDeviceController');
+var GpsDevice           = new GpsDeviceController();
+var KpiController       = require('../controllers/KpiController');
+var Kpi                 = new KpiController();
+var ProjectController   = require('../controllers/ProjectController');
+var Project             = new ProjectController();
+var RevenueController   = require('../controllers/RevenueController');
+var Revenue             = new RevenueController();
+var SsowController      = require('../controllers/SsowController');
+var Ssow                = new SsowController();
+var SubconController    = require('../controllers/SubconController');
+var Subcon              = new SubconController();
+var ToolsController     = require('../controllers/ToolsController');
+var Tools               = new ToolsController();
+
+var InventoryController = require('../controllers/InventoryController');
+var Inventory           = new InventoryController();
+var VehicleController   = require('../controllers/VehicleController');
+var Vehicle             = new VehicleController();
+
+
+var Connection = require('../config/database');
+/**
+ * Route REST API For <http://host:/<employee>/<query> Uri
+ * @uri
+ * @api
+ */
+Router.get('/employee', Employee.index);
+Router.get('/employee/:id', Employee.findById);
+Router.post('/employee', Employee.createData);
+Router.put('/employee/:id', Employee.updateDataById);
+Router.delete('/employee/:id', Employee.deleteDataById);
+
+/**
+ * Route REST API For <http://host:/customer/<query>
+ * @uri
+ * @api
+ */
+Router.all('/customer', authenticatedLogin);
+Router.get('/customer', Customer.index);
+Router.get('/customer/:id', Customer.findById);
+Router.post('/customer', Customer.createData);
+Router.put('/customer/:id', Customer.updateD
+
+ataById);
+Router.delete('/customer/:id', Customer.deleteDataById);
+/**
+ * Route REST API For <http://host:/customer_company/<query>
+ * @uri
+ * @api
+ */
+Router.get('/customer_company', CustomerCompany.index);
+Router.get('/customer_company/:id', CustomerCompany.findById);
+Router.post('/customer_company', CustomerCompany.createData);
+Router.put('/customer_company/:id', CustomerCompany.updateDataById);
+Router.delete('/customer_company/:id', CustomerCompany.deleteDataById);
+/**
+ * Route REST API For <http://host:/area/<query>
+ * @uri
+ * @api
+ */
+Router.get('/area', Area.index);
+Router.get('/area/:id', Area.findById);
+Router.post('/area',Area.createData);
+Router.put('/area/:id',Area.updateDataById);
+Router.delete('/area/:id',Area.deleteDataById);
+/**
+ * Route REST API For <http://host:/operator/<query>
+ * @uri
+ * @api
+ */
+Router.get('/operator', Operator.index);
+Router.get('/operator/:id', Operator.findById);
+Router.post('/operator', Operator.createData);
+Router.put('/operator/:id', Operator.updateDataById);
+Router.delete('/operator/:id', Operator.deleteDataById);
+
+
+Router.get('/training', Training.index);
+Router.get('/training/:id', Training.findById);
+Router.post('/training', Training.createData);
+Router.put('/training/:id', Training.updateDataById);
+Router.delete('/training/:id', Training.deleteDataById);
+
+
+Router.get('/holiday', Holiday.index);
+Router.get('/holiday/:id', Holiday.findById);
+Router.post('/holiday', Holiday.createData);
+Router.put('/holiday/:id', Holiday.updateDataById);
+Router.delete('/holiday/:id', Holiday.deleteDataById);
+/**
+ * Route REST API For <http://host:/position/<query>
+ * @uri
+ * @api
+ */
+Router.get('/position', Position.index);
+Router.get('/position/:id', Position.findById);
+Router.post('/position',Position.createData);
+Router.put('/position/:id',Position.updateDataById);
+Router.delete('/position/:id',Position.deleteDataById);
+/**
+ * Route REST API For <http://host:/inventory/<query>
+ * @uri
+ * @api
+ */
+Router.get('/inventory', Inventory.index);
+Router.get('/inventory/:id',Inventory.findById);
+Router.post('/inventory', Inventory.createData);
+Router.put('/inventory/:id', Inventory.updateDataById);
+Router.delete('/inventory/:id',Inventory.deleteDataById);
+
+Router.get('/vehicle', Vehicle.index);
+Router.get('/vehicle', Vehicle.findById);
+Router.post('/vehicle', Vehicle.createData);
+Router.put('/vehicle/:id', Vehicle.updateDataById);
+Router.delete('/vehicle/:id', Vehicle.deleteDataById);
+
+/**
+ * Route REST API For <http://host:/<gmpm_activity>/<query> Uri
+ * @uri
+ * @api
+ */
+Router.get('/gmpm_activity', GmpmActivity.index);
+
+Router.get('/gmpm_superior', GmpmSuperior.index);
+
+Router.get('/gps_device', GpsDevice.index);
+
+Router.get('/kpi', Kpi.index);
+
+Router.get('/revenue', Revenue.index);
+
+Router.get('/ssow', Ssow.index);
+
+Router.get('/ssow/:id', Ssow.findById);
+
+Router.get('/subcon', Subcon.index);
+
+Router.get('/tools', Tools.index);
+
+Router.get('/project', Project.index);
+
+function authenticatedLogin(req, res, next) {
+	if (req.isAuthenticated()) {
+		return next();
+	}
+
+	res.json({message: 'You cannot access thsis page with guest user'});
+	res.redirect('http://google.com');
+}
+module.exports = Router;
